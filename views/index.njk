@@ -1,0 +1,41 @@
+{% extends "layout.njk" %}
+
+{% block pagina %}
+
+<h1>Músicas da minha playlist</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Artista</th>
+            <th>Estrelas</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for musica in musicas %}    
+            <tr>
+                <td>{{ musica.id }}</td>
+                <td>{{ musica.nome }}</td>
+                <td>{{ musica.artista }}</td>
+                <td>
+                    {% for i in range(0, musica.estrelas) %}
+                        <i class="fa-solid fa-star"></i>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="/edit/{{ musica.id }}" class="btn btn-primary">Editar</a>
+                    <button class="btn btn-danger" onclick="event.preventDefault();
+                                                            document.getElementById('form-delete-{{ musica.id }}').submit()">Deletar</button>
+                    <form action="/delete/{{ musica.id }}" id="form-delete-{{ musica.id }}" method="POST" style="display: none;" >
+                        <input type="hidden" name="_method" value="DELETE" />
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
